@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data & System Lab — Divine Katende</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --deep:      #031B2E;
+    --ocean:     #064E6F;
+    --blue:      #087EA4;
+    --turquoise: #20C4C7;
+    --cyan:      #67E8F9;
+    --foam:      #F0FDFA;
+
+    --deep-2: #051f36;
+    --deep-3: #06263f;
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --max-w: 1120px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--deep);
+    color: var(--foam);
+    font-family: var(--font-body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+
+  ::selection{ background: var(--turquoise); color: var(--deep); }
+
+  :focus-visible{
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+  }
+
+  .wrap{
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+
+  header{
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 100;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(3,27,46,0.75);
+    border-bottom: 1px solid rgba(103,232,249,0.12);
+  }
+
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height: 76px;
+  }
+
+  .logo{
+    font-family: var(--font-display);
+    font-weight:700;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+  }
+  .logo span{ color: var(--turquoise); }
+
+  .nav-links{
+    display:flex;
+    gap: 34px;
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.03em;
+  }
+
+  .nav-links a{
+    position:relative;
+    opacity:0.75;
+    transition: opacity .2s ease;
+    padding: 6px 0;
+  }
+  .nav-links a::after{
+    content:'';
+    position:absolute; bottom:0; left:0; width:0; height:2px;
+    background: var(--turquoise);
+    transition: width .3s ease;
+  }
+  .nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
+  .nav-links a:hover{ opacity:1; }
+  .nav-links a.active{ opacity:1; color: var(--cyan); }
+
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:none;
+    color: var(--foam);
+    font-size:1.6rem;
+    cursor:pointer;
+    padding: 5px;
+  }
+
+  @media (max-width: 820px){
+    .wrap{ padding: 0 18px; }
+    .nav-links{
+      position:fixed;
+      top:76px; left:0; right:0;
+      flex-direction:column;
+      gap:0;
+      background: rgba(5, 31, 54, 0.98);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(103,232,249,0.15);
+      max-height:0;
+      overflow:hidden;
+      transition: max-height .4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 30px rgba(0,0,0,0.5);
+    }
+    .nav-links.open{ max-height:450px; }
+    .nav-links a{
+      padding: 16px 32px;
+      display:block;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      width:100%;
+    }
+    .nav-links a::after{ display:none; }
+    .nav-toggle{ display:block; }
+  }
+
+  /* ---------- HERO / HEADERS ---------- */
+
+  .section-label{
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--turquoise);
+    margin-bottom: 18px;
+    display:block;
+  }
+
+  .page-hero{
+    padding: 170px 0 70px;
+    border-bottom: 1px solid rgba(103,232,249,0.08);
+    background: radial-gradient(circle at 10% 20%, rgba(8,126,164,0.15), transparent 40%);
+  }
+  .page-hero h1{
+    font-family: var(--font-display);
+    font-weight:700;
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    line-height:1.05;
+    margin-top: 14px;
+  }
+  .page-hero .lede{
+    margin-top: 20px;
+    max-width: 650px;
+    color: rgba(240,253,250,0.7);
+    font-size: 1.05rem;
+  }
+
+  .lab-intro{ padding: 60px 0 40px; }
+  .lab-intro p{ max-width:680px; color: rgba(240,253,250,0.75); font-size:1.05rem; line-height: 1.7; }
+
+  /* ---------- LAB GRID ---------- */
+
+  .lab-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding-bottom: 70px;
+    border-top: 1px solid rgba(103,232,249,0.08);
+    padding-top: 60px;
+  }
+  @media (max-width:900px){ .lab-grid{ grid-template-columns:1fr; } }
+
+  .lab-card{
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(103,232,249,0.12);
+    border-radius: 8px;
+    padding: 30px;
+    transition: transform .3s ease, border-color .3s ease;
+  }
+  .lab-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(32,196,199,0.4);
+  }
+  .lab-card .num{
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--turquoise);
+    font-weight: 600;
+  }
+  .lab-card h3{
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    margin: 12px 0 16px;
+    color: var(--foam);
+  }
+  .lab-card ul{ display:flex; flex-direction:column; gap:10px; }
+  .lab-card li{
+    font-size: 0.9rem;
+    color: rgba(240,253,250,0.7);
+    padding-left:16px; position:relative;
+  }
+  .lab-card li::before{
+    content:''; position:absolute; left:0; top:10px;
+    width:5px; height:5px; background: var(--cyan); border-radius:50%;
+  }
+
+  .lab-tools{
+    padding: 60px 0 100px;
+    border-top: 1px solid rgba(103,232,249,0.08);
+  }
+
+  /* ---------- FOOTER ---------- */
+
+  footer{
+    padding: 40px 0;
+    border-top: 1px solid rgba(103,232,249,0.08);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: rgba(240,253,250,0.4);
+  }
+
+  footer a{ color: rgba(240,253,250,0.55); transition:color .2s ease; }
+  footer a:hover{ color: var(--cyan); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="logo">DIVINE <span>KATENDE</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="skills.html">Compétences</a></li>
+      <li><a href="projects.html">Projets</a></li>
+      <li><a href="lab.html" class="active">Data Lab</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+  <section class="page-hero wrap">
+    <span class="section-label">// SYSTEM &amp; PROJECT LAB</span>
+    <h1>Mon espace d'expérimentation</h1>
+    <p class="lede">Un espace dédié à l'organisation rigoureuse de projets informatiques et à la conception de solutions embarquées communicantes.</p>
+  </section>
+
+  <section class="lab-intro wrap">
+    <p>Ce Lab documente mes méthodes d'ingénierie : de l'application des cycles de développement prédictifs (gestion des exigences et jalons) jusqu'à la mise en œuvre pratique de systèmes électroniques embarqués pilotés à distance.</p>
+  </section>
+
+  <div class="lab-grid wrap">
+    <div class="lab-card">
+      <span class="num">01</span>
+      <h3>Gestion Prédictive de Projet</h3>
+      <ul>
+        <li>Planification structurée (Waterfall / Cycle en cascade)</li>
+        <li>Définition du périmètre et spécifications</li>
+        <li>Gestion des risques et jalons de livraison</li>
+        <li>Documentation technique et cahier des charges</li>
+      </ul>
+    </div>
+
+    <div class="lab-card">
+      <span class="num">02</span>
+      <h3>Systèmes Embarqués</h3>
+      <ul>
+        <li>Programmation de microcontrôleurs</li>
+        <li>Acquisition et traitement des données capteurs</li>
+        <li>Gestion des alertes thermiques et incendie</li>
+        <li>Intégration d'architectures matérielles</li>
+      </ul>
+    </div>
+
+    <div class="lab-card">
+      <span class="num">03</span>
+      <h3>Communication GSM &amp; IoT</h3>
+      <ul>
+        <li>Exécution et routage des commandes AT</li>
+        <li>Envoi automatique de SMS / notifications réseau</li>
+        <li>Gestion des modules cellulaires (ex: SIM800L/SIM900)</li>
+        <li>Supervision à distance de systèmes physiques</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="lab-tools wrap">
+    <span class="section-label">// STATUT</span>
+    <p style="max-width:600px; color:rgba(240,253,250,0.65); margin-top:10px;">
+      Cet espace évolue au rythme de mes réalisations techniques et du déploiement de prototypes matériels et logiciels.
+    </p>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>© 2026 Divine Katende</span>
+  <span>Kinshasa, RDC</span>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+    navToggle.innerHTML = isOpen ? '✕' : '☰';
+  });
+
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.innerHTML = '☰';
+    });
+  });
+</script>
+
+</body>
+</html>
